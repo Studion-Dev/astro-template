@@ -1,0 +1,87 @@
+---
+// src/components/core/Footer.astro
+import { siteConfig } from '../../config/site'
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="border-border bg-surface text-secondary border-t">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <!-- Brand Info -->
+      <div class="space-y-4">
+        <div
+          class="font-heading text-secondary flex items-center gap-2 text-xl font-bold tracking-tight"
+        >
+          <span
+            class="bg-primary flex size-8 items-center justify-center rounded-lg font-bold text-white"
+          >
+            {siteConfig.name.charAt(0)}
+          </span>
+          <span>{siteConfig.name}</span>
+        </div>
+        <p class="max-w-sm text-sm leading-relaxed text-slate-600">
+          {siteConfig.description}
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3
+          class="font-heading text-secondary mb-4 text-sm font-semibold tracking-wider uppercase"
+        >
+          Navigasi
+        </h3>
+        <ul class="space-y-2.5">
+          {
+            siteConfig.navigation.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="hover:text-primary text-sm text-slate-600 transition-colors"
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h3
+          class="font-heading text-secondary mb-4 text-sm font-semibold tracking-wider uppercase"
+        >
+          Kontak & Lokasi
+        </h3>
+        <ul class="space-y-2.5 text-sm text-slate-600">
+          <li>Alamat: {siteConfig.contact.address}</li>
+          <li>
+            Email: <a
+              href={`mailto:${siteConfig.contact.email}`}
+              class="hover:text-primary transition-colors"
+              >{siteConfig.contact.email}</a
+            >
+          </li>
+          <li>
+            WhatsApp: <a
+              href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+              target="_blank"
+              class="hover:text-primary transition-colors"
+              >+{siteConfig.contact.whatsapp}</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div
+      class="border-border mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-xs text-slate-500 sm:flex-row"
+    >
+      <p>&copy; {currentYear} {siteConfig.name}. All rights reserved.</p>
+      <p>Designed with Astro & Tailwind CSS</p>
+    </div>
+  </div>
+</footer>

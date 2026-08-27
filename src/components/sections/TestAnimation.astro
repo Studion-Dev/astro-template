@@ -1,0 +1,65 @@
+---
+// src/components/sections/StatsSection.astro
+---
+
+<section class="border-border my-12 overflow-hidden border-y bg-white py-16">
+  <div class="mx-auto max-w-6xl px-4">
+    <!-- Title Reveal dari Atas/Bawah -->
+    <div class="reveal mb-12 text-center">
+      <h2 class="font-heading text-secondary text-2xl font-bold sm:text-3xl">
+        Pencapaian & Statistik
+      </h2>
+      <p class="mt-2 text-sm text-slate-600">
+        Animasi interaktif angka dan transisi layout saat di-scroll
+      </p>
+    </div>
+
+    <!-- Grid Card Stats -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <!-- Card 1: Reveal dari Kiri -->
+      <div
+        class="bg-surface border-border reveal-left rounded-2xl border p-6 text-center"
+      >
+        <div
+          class="text-primary font-heading mb-2 text-4xl font-extrabold sm:text-5xl"
+        >
+          <span class="counter" data-target="120">0</span>+
+        </div>
+        <h3 class="text-secondary text-base font-semibold">Project Selesai</h3>
+        <p class="mt-1 text-xs text-slate-500">
+          Website bisnis & landing page profesional
+        </p>
+      </div>
+
+      <!-- Card 2: Reveal dari Bawah -->
+      <div
+        class="bg-surface border-border reveal rounded-2xl border p-6 text-center"
+      >
+        <div
+          class="text-primary font-heading mb-2 text-4xl font-extrabold sm:text-5xl"
+        >
+          <span class="counter" data-target="4.9">0</span>/5.0
+        </div>
+        <h3 class="text-secondary text-base font-semibold">Rating Kepuasan</h3>
+        <p class="mt-1 text-xs text-slate-500">
+          Ulasan positif dari klien agensi
+        </p>
+      </div>
+
+      <!-- Card 3: Reveal dari Kanan -->
+      <div
+        class="bg-surface border-border reveal-right rounded-2xl border p-6 text-center"
+      >
+        <div
+          class="text-primary font-heading mb-2 text-4xl font-extrabold sm:text-5xl"
+        >
+          <span class="counter" data-target="15000">0</span>k+
+        </div>
+        <h3 class="text-secondary text-base font-semibold">Total Pengunjung</h3>
+        <p class="mt-1 text-xs text-slate-500">
+          Estimasi traffic bulanan di website klien
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

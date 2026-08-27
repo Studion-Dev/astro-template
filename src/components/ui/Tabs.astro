@@ -1,0 +1,48 @@
+---
+// src/components/ui/Tabs.astro
+export interface TabItem {
+  id: string
+  label: string
+  content: string
+}
+
+interface Props {
+  tabs: TabItem[]
+}
+
+const { tabs } = Astro.props
+---
+
+<div x-data={`{ activeTab: '${tabs[0]?.id || ''}' }`} class="w-full">
+  <!-- Tab Buttons -->
+  <div
+    class="border-border no-scrollbar flex items-center gap-2 overflow-x-auto border-b pb-2"
+  >
+    {
+      tabs.map((tab) => (
+        <button
+          x-on:click={`activeTab = '${tab.id}'`}
+          x-bind:class={`activeTab === '${tab.id}' ? 'bg-primary text-white shadow-sm' : 'text-slate-600 hover:text-secondary hover:bg-slate-100'`}
+          class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all focus:outline-none"
+        >
+          {tab.label}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- Tab Content -->
+  <div class="border-border mt-4 rounded-xl border bg-white p-6">
+    {
+      tabs.map((tab) => (
+        <div
+          x-show={`activeTab === '${tab.id}'`}
+          x-cloak
+          class="leading-relaxed text-slate-600"
+        >
+          {tab.content}
+        </div>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,76 @@
+---
+// src/components/ui/Carousel.astro
+export interface CarouselItem {
+  name: string
+  role: string
+  text: string
+}
+
+interface Props {
+  items: CarouselItem[]
+}
+
+const { items } = Astro.props
+---
+
+<div
+  x-data={`{
+    activeSlide: 0,
+    total: ${items.length},
+    next() { this.activeSlide = (this.activeSlide + 1) % this.total },
+    prev() { this.activeSlide = (this.activeSlide - 1 + this.total) % this.total }
+  }`}
+  class="border-border relative w-full overflow-hidden rounded-xl border bg-white p-6"
+>
+  <div class="flex min-h-35 items-center justify-center">
+    {
+      items.map((item, index) => (
+        <div
+          x-show={`activeSlide === ${index}`}
+          x-cloak
+          class="mx-auto max-w-xl space-y-4 text-center"
+        >
+          <p class="text-base text-slate-700 italic sm:text-lg">
+            "{item.text}"
+          </p>
+          <div>
+            <h4 class="font-heading text-secondary text-sm font-bold">
+              {item.name}
+            </h4>
+            <p class="text-xs text-slate-500">{item.role}</p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Controller Buttons -->
+  <div
+    class="border-border mt-4 flex items-center justify-between border-t pt-4"
+  >
+    <button
+      @click="prev()"
+      class="hover:text-primary p-2 text-slate-500 transition-colors"
+      >← Prev</button
+    >
+
+    <!-- Dots Indicator -->
+    <div class="flex gap-1.5">
+      {
+        items.map((_, index) => (
+          <span
+            x-on:click={`activeSlide = ${index}`}
+            x-bind:class={`activeSlide === ${index} ? 'bg-primary w-5' : 'bg-slate-300 w-2'`}
+            class="h-2 cursor-pointer rounded-full transition-all"
+          />
+        ))
+      }
+    </div>
+
+    <button
+      @click="next()"
+      class="hover:text-primary p-2 text-slate-500 transition-colors"
+      >Next →</button
+    >
+  </div>
+</div>

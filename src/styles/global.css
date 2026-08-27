@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+/* -------------------------------------------------------------------------- */
+/* 1. Theme Variables                                                         */
+/* -------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-secondary: #0f172a;
+  --color-accent: #f59e0b;
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Base Styles (@layer base)                                              */
+/* -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+  }
+
+  /* Fix kedip Alpine.js saat pertama dimuat */
+  [x-cloak] {
+    display: none !important;
+  }
+
+  /* Default Minimal Scrollbar untuk HTML / Body */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Custom Utilities (@utility)                                             */
+/* -------------------------------------------------------------------------- */
+
+/* Opsi A: Sembunyikan Scrollbar Sepenuhnya */
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Opsi B: Auto-Hide Scrollbar */
+@utility scrollbar-autohide {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+
+  &:hover {
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+  }
+}
+
+/* Opsi C: Always Visible Scrollbar Minimalis */
+@utility scrollbar-visible {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+  }
+}
+
+/* ---------- Utilities untuk Scroll Reveal ---------- */
+
+/* Reveal dari Bawah (Default) */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reveal dari Kiri */
+@utility reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.8s ease-out;
+  will-change: opacity, transform;
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Reveal dari Kanan */
+@utility reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.8s ease-out;
+  will-change: opacity, transform;
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

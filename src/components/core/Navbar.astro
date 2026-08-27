@@ -1,0 +1,133 @@
+---
+// src/components/core/Navbar.astro
+import { siteConfig } from '../../config/site'
+
+interface Props {
+  activeNav?: string
+}
+
+const { activeNav } = Astro.props
+---
+
+<header
+  x-data="{ isOpen: false }"
+  class="border-border bg-surface/80 sticky top-0 z-50 w-full border-b backdrop-blur-md transition-all"
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+  >
+    <!-- Brand Logo / Name -->
+    <a
+      href="/"
+      class="font-heading text-secondary flex items-center gap-2 text-xl font-bold tracking-tight"
+    >
+      <span
+        class="bg-primary flex size-8 items-center justify-center rounded-lg font-bold text-white"
+      >
+        {siteConfig.name.charAt(0)}
+      </span>
+      <span>{siteConfig.name}</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden items-center gap-8 md:flex">
+      {
+        siteConfig.navigation.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'hover:text-primary text-sm font-medium transition-colors',
+              activeNav === item.href
+                ? 'text-primary font-semibold'
+                : 'text-slate-600',
+            ]}
+          >
+            {item.name}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Desktop CTA Button -->
+    <div class="hidden items-center gap-4 md:flex">
+      <a
+        href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-primary hover:bg-primary-hover focus-visible:outline-primary inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all focus-visible:outline-2 focus-visible:outline-offset-2"
+      >
+        Hubungi Kami
+      </a>
+    </div>
+
+    <!-- Mobile Hamburger Button -->
+    <button
+      @click="isOpen = !isOpen"
+      type="button"
+      class="hover:text-secondary inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 focus:outline-none md:hidden"
+      aria-label="Toggle Menu"
+    >
+      <!-- Icon Open -->
+      <svg
+        x-show="!isOpen"
+        class="size-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+      </svg>
+      <!-- Icon Close -->
+      <svg
+        x-show="isOpen"
+        x-cloak
+        class="size-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div
+    x-show="isOpen"
+    x-collapse
+    x-cloak
+    class="border-border bg-surface border-b px-4 pt-2 pb-6 md:hidden"
+  >
+    <div class="flex flex-col space-y-3">
+      {
+        siteConfig.navigation.map((item) => (
+          <a
+            href={item.href}
+            x-on:click="isOpen = false"
+            class="hover:text-primary rounded-lg px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100"
+          >
+            {item.name}
+          </a>
+        ))
+      }
+      <div class="pt-2">
+        <a
+          href={`https://wa.me/${siteConfig.contact.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-primary hover:bg-primary-hover flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm"
+        >
+          Hubungi Kami
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

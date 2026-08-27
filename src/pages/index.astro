@@ -1,0 +1,70 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro'
+import { siteConfig } from '../config/site.ts'
+import TestAnimation from '../components/sections/TestAnimation.astro'
+---
+
+<Layout
+  title={`${siteConfig.name} | Template Web Profesional`}
+  description={siteConfig.description}
+>
+  <main
+    class="flex min-h-screen flex-col items-center justify-center p-6 text-center"
+  >
+    <!-- Badge / Status Tag -->
+    <div
+      class="bg-primary/10 text-primary mb-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium"
+    >
+      <span class="bg-primary size-2 animate-pulse rounded-full"></span>
+      Astro + Tailwind v4 + Alpine.js
+    </div>
+
+    <!-- Main Title (Menggunakan font-heading / Plus Jakarta Sans) -->
+    <h1
+      class="font-heading text-secondary mb-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl"
+    >
+      Template Siap Pakai untuk <span class="text-primary"
+        >Project Jasa Website</span
+      >
+    </h1>
+
+    <!-- Description -->
+    <p class="mb-8 max-w-xl text-lg leading-relaxed text-slate-600">
+      Pondasi kodingan sudah rapi, ringan, dan siap dikembangkan. Tinggal rakit
+      komponen UI interaktif dan atur konfigurasinya!
+    </p>
+
+    <!-- Test Interactive Component (Alpine.js Verification) -->
+    <div
+      x-data="{ open: false }"
+      class="border-border mb-8 w-full max-w-md rounded-xl border bg-white p-4 text-left shadow-sm"
+    >
+      <button
+        @click="open = !open"
+        class="text-secondary flex w-full items-center justify-between font-semibold focus:outline-none"
+      >
+        <span>Cek Status Alpine.js & Collapse</span>
+        <span x-text="open ? '−' : '+'" class="text-primary text-lg font-bold"
+        ></span>
+      </button>
+
+      <div
+        x-show="open"
+        x-collapse
+        x-cloak
+        class="border-border mt-3 border-t pt-3 text-sm text-slate-600"
+      >
+        ✨ Alpine.js dan plugin <code>@alpinejs/collapse</code> berhasil berjalan
+        sempurna tanpa kendala!
+      </div>
+    </div>
+
+    <!-- Footer Note -->
+    <p class="text-xs text-slate-400">
+      Dikembangkan untuk alur kerja yang cepat dan gampang di-maintain.
+    </p>
+  </main>
+
+  <TestAnimation />
+</Layout>
