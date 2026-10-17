@@ -1,70 +1,65 @@
 ---
-// src/pages/index.astro
-import Layout from '../layouts/Layout.astro'
-import { siteConfig } from '../config/site.ts'
-import TestAnimation from '../components/sections/TestAnimation.astro'
+import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-  title={`${siteConfig.name} | Template Web Profesional`}
-  description={siteConfig.description}
+  title="Website Starter | Astro Blueprint"
+  description="Starter template Astro yang ringan, responsif, dan siap dikembangkan untuk website bisnis."
 >
-  <main
-    class="flex min-h-screen flex-col items-center justify-center p-6 text-center"
+  <section
+    class="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20"
   >
-    <!-- Badge / Status Tag -->
-    <div
-      class="bg-primary/10 text-primary mb-6 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium"
-    >
-      <span class="bg-primary size-2 animate-pulse rounded-full"></span>
-      Astro + Tailwind v4 + Alpine.js
-    </div>
+    <p class="text-primary mb-4 text-sm font-semibold tracking-wide">
+      ASTRO STARTER TEMPLATE
+    </p>
 
-    <!-- Main Title (Menggunakan font-heading / Plus Jakarta Sans) -->
     <h1
-      class="font-heading text-secondary mb-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl"
+      class="font-heading max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
     >
-      Template Siap Pakai untuk <span class="text-primary"
-        >Project Jasa Website</span
-      >
+      Fondasi website profesional yang cepat dan fleksibel.
     </h1>
 
-    <!-- Description -->
-    <p class="mb-8 max-w-xl text-lg leading-relaxed text-slate-600">
-      Pondasi kodingan sudah rapi, ringan, dan siap dikembangkan. Tinggal rakit
-      komponen UI interaktif dan atur konfigurasinya!
+    <p class="text-secondary/70 mt-6 max-w-2xl text-lg leading-relaxed">
+      Template dasar untuk membangun landing page dan company profile sesuai
+      kebutuhan setiap klien.
     </p>
 
-    <!-- Test Interactive Component (Alpine.js Verification) -->
-    <div
-      x-data="{ open: false }"
-      class="border-border mb-8 w-full max-w-md rounded-xl border bg-white p-4 text-left shadow-sm"
-    >
-      <button
-        @click="open = !open"
-        class="text-secondary flex w-full items-center justify-between font-semibold focus:outline-none"
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a
+        href="#features"
+        class="bg-primary hover:bg-primary-hover focus-visible:outline-primary rounded-lg px-6 py-3 font-semibold text-white transition focus-visible:outline-2 focus-visible:outline-offset-4"
       >
-        <span>Cek Status Alpine.js & Collapse</span>
-        <span x-text="open ? '−' : '+'" class="text-primary text-lg font-bold"
-        ></span>
-      </button>
+        Lihat Fondasi
+      </a>
+    </div>
+  </section>
 
-      <div
-        x-show="open"
-        x-collapse
-        x-cloak
-        class="border-border mt-3 border-t pt-3 text-sm text-slate-600"
-      >
-        ✨ Alpine.js dan plugin <code>@alpinejs/collapse</code> berhasil berjalan
-        sempurna tanpa kendala!
+  <section id="features" class="bg-surface px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="font-heading text-3xl font-bold">Apa yang menjadi fondasi?</h2>
+
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <article class="border-border rounded-xl border bg-white p-6">
+          <h3 class="text-lg font-semibold">Performance</h3>
+          <p class="text-secondary/70 mt-3 leading-relaxed">
+            Mengutamakan HTML, CSS, dan JavaScript seperlunya.
+          </p>
+        </article>
+
+        <article class="border-border rounded-xl border bg-white p-6">
+          <h3 class="text-lg font-semibold">SEO & Accessibility</h3>
+          <p class="text-secondary/70 mt-3 leading-relaxed">
+            Struktur semantik dan metadata sebagai fondasi setiap halaman.
+          </p>
+        </article>
+
+        <article class="border-border rounded-xl border bg-white p-6">
+          <h3 class="text-lg font-semibold">Reusable</h3>
+          <p class="text-secondary/70 mt-3 leading-relaxed">
+            Struktur sederhana yang bisa disesuaikan untuk berbagai bisnis.
+          </p>
+        </article>
       </div>
     </div>
-
-    <!-- Footer Note -->
-    <p class="text-xs text-slate-400">
-      Dikembangkan untuk alur kerja yang cepat dan gampang di-maintain.
-    </p>
-  </main>
-
-  <TestAnimation />
+  </section>
 </Layout>

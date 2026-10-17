@@ -1,48 +1,46 @@
 ---
-// src/components/core/SEO.astro
-export interface SEOProps {
-  title?: string
-  description?: string
-  ogImage?: string
-  canonicalURL?: string | URL
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string | URL;
+  noindex?: boolean;
 }
 
 const {
-  title = 'Website | Nama Bisnis',
-  description = 'Deskripsi website SEO friendly',
-  ogImage = '/favicon.svg',
-  canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin),
-} = Astro.props
+  title,
+  description,
+  ogImage = '/og-image.jpg',
+  canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url),
+  noindex = false,
+} = Astro.props;
 
-// Menyusun URL absolut untuk OG Image
-const resolvedOgImage =
-  typeof ogImage === 'string' && ogImage.startsWith('/')
-    ? new URL(ogImage, Astro.site || Astro.url.origin).toString()
-    : ogImage
+const siteUrl = Astro.site ?? Astro.url;
+const canonical = new URL(canonicalURL, siteUrl).href;
+const resolvedOgImage = new URL(ogImage, siteUrl).href;
+const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
-<link rel="canonical" href={canonicalURL} />
-<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="canonical" href={canonical} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 <title>{title}</title>
-<meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Open Graph / Facebook -->
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={pageUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={resolvedOgImage} />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={resolvedOgImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={pageUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedOgImage} />

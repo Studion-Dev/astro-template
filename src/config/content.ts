@@ -1,63 +1,57 @@
-// Types untuk kepastian data TypeScript
 export interface FAQItem {
-  id: string
-  question: string
-  answer: string
+  id: string;
+  question: string;
+  answer: string;
 }
 
 export interface PricingItem {
-  name: string
-  price: string
-  description: string
-  features: string[]
-  isPopular?: boolean
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  isPopular?: boolean;
 }
 
-// Data Konten
 export const heroContent = {
   badge: 'Jasa Website Profesional',
   title: 'Bikin Website Bisnis Tanpa Ribet',
   description:
-    'Desain visual menarik, cepat diakses, dan responsif di semua perangkat.',
+    'Desain menarik, cepat diakses, dan responsif di berbagai perangkat.',
   ctaPrimary: 'Konsultasi Gratis',
-  ctaSecondary: 'Lihat Paket',
-}
+  ctaSecondary: 'Lihat Layanan',
+};
 
 export const faqList: FAQItem[] = [
   {
     id: 'faq-1',
-    question: 'Berapa lama proses pembuatan websitenya?',
+    question: 'Berapa lama proses pembuatan website?',
     answer:
-      'Proses pengerjaan biasanya memakan waktu 3 - 7 hari kerja bergantung pada kelengkapan materi kamu.',
+      'Durasi pengerjaan menyesuaikan kebutuhan proyek dan kelengkapan materi dari klien.',
   },
   {
     id: 'faq-2',
     question: 'Apakah sudah termasuk domain dan hosting?',
     answer:
-      'Ya, semua paket sudah include domain .com/.id dan hosting selama 1 tahun.',
+      'Detail domain dan hosting mengikuti paket serta kesepakatan proyek.',
   },
-]
+];
 
 export const pricingList: PricingItem[] = [
   {
     name: 'Basic',
     price: '1.5 Jt',
-    description: 'Cocok untuk landing page promosi produk tunggal.',
-    features: [
-      'Single Page / One Page',
-      'Desain Responsif',
-      'Tombol WhatsApp Direct',
-    ],
+    description: 'Cocok untuk landing page promosi produk atau layanan.',
+    features: ['Website satu halaman', 'Desain responsif', 'Tombol WhatsApp'],
   },
   {
     name: 'Pro',
     price: '3 Jt',
-    description: 'Solusi lengkap untuk profil perusahaan & jasa profesional.',
+    description: 'Untuk profil perusahaan dan bisnis jasa profesional.',
     features: [
-      'Multi Page',
-      'Komponen Interaktif (Accordion/Tabs)',
-      'SEO Basic + Sitemap',
+      'Website multi halaman',
+      'Komponen interaktif sesuai kebutuhan',
+      'SEO dasar dan sitemap',
     ],
     isPopular: true,
   },
-]
+];

@@ -1,22 +1,22 @@
 ---
-// src/layouts/Layout.astro
-import SEO from '../components/core/SEO.astro'
-import Navbar from '../components/core/Navbar.astro'
-import Footer from '../components/core/Footer.astro'
-import '../styles/global.css'
+import SEO from '../components/core/SEO.astro';
+import Navbar from '../components/core/Navbar.astro';
+import Footer from '../components/core/Footer.astro';
+import '../styles/global.css';
 
-export interface Props {
-  title?: string
-  description?: string
-  ogImage?: string
-  canonicalURL?: string
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string | URL;
+  lang?: string;
 }
 
-const { title, description, ogImage, canonicalURL } = Astro.props
+const { title, description, ogImage, canonicalURL, lang = 'id' } = Astro.props;
 ---
 
-<!--text/html-->
-<html lang="id">
+<!doctype html>
+<html lang={lang}>
   <head>
     <SEO
       title={title}
@@ -25,29 +25,24 @@ const { title, description, ogImage, canonicalURL } = Astro.props
       canonicalURL={canonicalURL}
     />
 
-    <!-- Google Fonts Preconnect & Load (Inter & Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Script Alpine.js Custom Entrypoint (Mengaktifkan @alpinejs/collapse) -->
-    <script>
-      import '../script/alpine.js'
-      import '../script/animation.js'
-    </script>
+    <slot name="head" />
   </head>
+
   <body
-    class="bg-surface text-secondary selection:bg-primary flex min-h-screen flex-col antialiased selection:text-white"
+    class="bg-surface text-secondary flex min-h-screen flex-col antialiased"
   >
     <Navbar />
 
-    <!-- Main Content -->
-    <div class="flex-1">
+    <main class="flex-1">
       <slot />
-    </div>
+    </main>
 
     <Footer />
   </body>
