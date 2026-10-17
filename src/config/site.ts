@@ -1,19 +1,51 @@
 export const siteConfig = {
-  name: 'Nama Bisnis',
-  description: 'Deskripsi singkat bisnis atau perusahaan.',
-  url: 'https://domain-klien.com',
-  ogImage: '/images/og.jpg',
+  // Identitas bisnis
+  name: 'BUSINESS_NAME',
+  legalName: '',
+  tagline: 'BUSINESS_TAGLINE',
+  description: 'BUSINESS_DESCRIPTION',
 
+  // Domain website
+  url: 'https://example.com',
+
+  // Informasi kontak
   contact: {
-    whatsapp: '6281234567890',
-    email: 'halo@domainklien.com',
-    address: 'Jakarta, Indonesia',
+    whatsapp: '',
+    phone: '',
+    email: '',
   },
 
+  // Alamat bisnis
+  address: {
+    street: '',
+    city: '',
+    province: '',
+    postalCode: '',
+    country: 'Indonesia',
+  },
+
+  // Media sosial
+  social: {
+    instagram: '',
+    facebook: '',
+    tiktok: '',
+    youtube: '',
+  },
+
+  // Navigasi global
   navigation: [
-    { name: 'Beranda', href: '/' },
-    { name: 'Layanan', href: '/layanan/' },
-    { name: 'Tentang Kami', href: '/tentang-kami/' },
-    { name: 'Kontak', href: '/kontak/' },
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Services', href: '/services' },
+    { label: 'Contact', href: '/contact' },
   ],
-} as const;
+
+  // SEO dan social sharing
+  seo: {
+    defaultTitle: 'BUSINESS_NAME | BUSINESS_TAGLINE',
+    titleTemplate: '%s | BUSINESS_NAME',
+    defaultDescription: 'BUSINESS_DESCRIPTION',
+    ogImage: '/images/og-image.jpg',
+    locale: 'id_ID',
+  },
+};
