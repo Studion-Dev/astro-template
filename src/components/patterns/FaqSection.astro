@@ -1,0 +1,71 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  items: { question: string; answer: string }[];
+}
+
+const { eyebrow, title, description, items } = Astro.props;
+---
+
+<section id="faq" class="bg-surface scroll-mt-24 px-6 py-20">
+  <div class="mx-auto max-w-3xl">
+    <div class="text-center" data-reveal="up">
+      {
+        eyebrow && (
+          <p class="text-primary text-sm font-semibold tracking-wide uppercase">
+            {eyebrow}
+          </p>
+        )
+      }
+
+      <h2
+        class="font-heading mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
+      >
+        {title}
+      </h2>
+
+      {
+        description && (
+          <p class="text-muted mx-auto mt-4 max-w-2xl leading-relaxed">
+            {description}
+          </p>
+        )
+      }
+    </div>
+
+    <div class="divide-border border-border mt-10 divide-y border-y">
+      {
+        items.map((item, index) => (
+          <details
+            class="group"
+            data-reveal="up"
+            style={`transition-delay: ${index * 50}ms`}
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-left font-semibold [&::-webkit-details-marker]:hidden">
+              <span>{item.question}</span>
+
+              <svg
+                class="text-muted size-5 shrink-0 transition-transform duration-200 group-open:rotate-180"
+                aria-hidden="true"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </summary>
+
+            <p class="text-muted pb-5 leading-relaxed">{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

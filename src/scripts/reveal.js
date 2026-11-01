@@ -1,5 +1,6 @@
-const initAnimations = () => {
-  const elements = document.querySelectorAll('[data-reveal]');
+const initReveal = () => {
+  const elements =
+    document.querySelectorAll < HTMLElement > '[data-reveal]:not(.is-visible)';
 
   if (!elements.length) return;
 
@@ -13,12 +14,12 @@ const initAnimations = () => {
   }
 
   const observer = new IntersectionObserver(
-    (entries, observer) => {
+    (entries, currentObserver) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
+        currentObserver.unobserve(entry.target);
       });
     },
     {
@@ -32,4 +33,5 @@ const initAnimations = () => {
   });
 };
 
-initAnimations();
+initReveal();
+document.addEventListener('astro:page-load', initReveal);

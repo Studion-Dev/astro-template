@@ -1,4 +1,6 @@
 ---
+import { siteConfig } from '../../config/site';
+
 interface Props {
   title?: string;
   description?: string;
@@ -10,15 +12,25 @@ interface Props {
 const {
   title,
   description,
-  ogImage = '/og-image.jpg',
-  canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url),
+  ogImage,
+  canonicalURL,
   noindex = false,
 } = Astro.props;
 
-const siteUrl = Astro.site ?? Astro.url;
-const canonical = new URL(canonicalURL, siteUrl).href;
-const resolvedOgImage = new URL(ogImage, siteUrl).href;
+const seo = siteConfig.seo;
+const siteUrl = Astro.site ?? new URL(siteConfig.url);
+
+// Judul halaman memakai titleTemplate; homepage memakai defaultTitle.
+const pageTitle = title
+  ? seo.titleTemplate.replace('%s', title)
+  : seo.defaultTitle;
+const pageDescription = description ?? seo.defaultDescription;
+const canonical = new URL(canonicalURL ?? Astro.url.pathname, siteUrl).href;
 const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
+const resolvedOgImage = new URL(ogImage ?? seo.ogImage, siteUrl).href;
+
+// Development tidak boleh masuk indeks mesin pencari.
+const shouldNoindex = noindex || import.meta.env.DEV;
 ---
 
 <meta charset="utf-8" />
@@ -28,19 +40,22 @@ const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-<title>{title}</title>
-<meta name="description" content={description} />
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
 
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{shouldNoindex && <meta name="robots" content="noindex, nofollow" />}
 
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:locale" content={seo.locale} />
 <meta property="og:url" content={pageUrl} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={resolvedOgImage} />
+<meta property="og:image:alt" content={pageTitle} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={pageUrl} />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
 <meta name="twitter:image" content={resolvedOgImage} />

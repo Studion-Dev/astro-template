@@ -1,12 +1,7 @@
 ---
-import { siteConfig } from '../../config/site';
+import { siteConfig, getWhatsAppUrl } from '../../config/site';
 
-interface Props {
-  activeNav?: string;
-}
-
-const { activeNav } = Astro.props;
-const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
+const whatsappUrl = getWhatsAppUrl();
 ---
 
 <header
@@ -17,11 +12,11 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
   >
     <a
       href="/"
-      class="font-heading text-secondary flex items-center gap-2 text-xl font-bold tracking-tight"
+      class="font-heading text-foreground flex items-center gap-2 text-xl font-bold tracking-tight"
       aria-label={`${siteConfig.name} - Beranda`}
     >
       <span
-        class="bg-primary flex size-8 items-center justify-center rounded-lg font-bold text-white"
+        class="bg-primary text-on-primary flex size-8 items-center justify-center rounded-lg font-bold"
         aria-hidden="true"
       >
         {siteConfig.name.charAt(0)}
@@ -35,36 +30,34 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
         siteConfig.navigation.map((item) => (
           <a
             href={item.href}
-            aria-current={activeNav === item.href ? 'page' : undefined}
-            class:list={[
-              'hover:text-primary text-sm font-medium transition-colors',
-              activeNav === item.href
-                ? 'text-primary font-semibold'
-                : 'text-slate-600',
-            ]}
+            class="hover:text-primary text-muted text-sm font-medium transition-colors"
           >
-            {item.name}
+            {item.label}
           </a>
         ))
       }
     </nav>
 
     <!-- Desktop CTA -->
-    <div class="hidden md:flex">
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="bg-primary hover:bg-primary-hover focus-visible:outline-primary inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
-      >
-        Hubungi Kami
-      </a>
-    </div>
+    {
+      whatsappUrl && (
+        <div class="hidden md:flex">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-primary hover:bg-primary-hover focus-visible:outline-primary text-on-primary inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold shadow-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Hubungi Kami
+          </a>
+        </div>
+      )
+    }
 
     <!-- Mobile Menu Button -->
     <button
       type="button"
-      class="hover:text-secondary focus-visible:outline-primary inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 md:hidden"
+      class="hover:text-foreground focus-visible:outline-primary text-muted inline-flex items-center justify-center rounded-lg p-2 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 md:hidden"
       aria-label="Buka menu navigasi"
       aria-expanded="false"
       aria-controls="mobile-navigation"
@@ -115,26 +108,26 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
         siteConfig.navigation.map((item) => (
           <a
             href={item.href}
-            aria-current={activeNav === item.href ? 'page' : undefined}
-            class:list={[
-              'hover:text-primary rounded-lg px-3 py-2 text-base font-medium hover:bg-slate-100',
-              activeNav === item.href ? 'text-primary' : 'text-slate-700',
-            ]}
+            class="hover:text-primary text-muted rounded-lg px-3 py-2 text-base font-medium hover:bg-neutral-100"
             data-menu-link
           >
-            {item.name}
+            {item.label}
           </a>
         ))
       }
 
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="bg-primary hover:bg-primary-hover mt-2 flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-center text-sm font-semibold text-white"
-      >
-        Hubungi Kami
-      </a>
+      {
+        whatsappUrl && (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-primary hover:bg-primary-hover text-on-primary mt-2 flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-center text-sm font-semibold"
+          >
+            Hubungi Kami
+          </a>
+        )
+      }
     </div>
   </nav>
 </header>

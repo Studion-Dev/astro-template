@@ -1,0 +1,182 @@
+---
+import { siteConfig, getWhatsAppUrl } from '../../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  topics?: string[];
+  submitLabel?: string;
+}
+
+const {
+  title = 'Kirim pesan',
+  description,
+  topics = [],
+  submitLabel = 'Kirim via WhatsApp',
+} = Astro.props;
+
+const whatsappBaseUrl = getWhatsAppUrl();
+
+const fieldClass =
+  'border-border bg-card text-foreground placeholder:text-muted/60 focus:border-primary focus:ring-primary/30 w-full rounded-lg border px-4 py-2.5 transition outline-none focus:ring-2';
+---
+
+<section id="kontak" class="scroll-mt-24 px-6 py-20">
+  <div class="mx-auto max-w-2xl">
+    <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+      {title}
+    </h2>
+
+    {
+      description && (
+        <p class="text-muted mt-4 leading-relaxed">{description}</p>
+      )
+    }
+
+    {
+      whatsappBaseUrl ? (
+        <form
+          class="mt-8 space-y-5"
+          method="get"
+          action={whatsappBaseUrl}
+          data-wa-form
+          data-wa-base={whatsappBaseUrl}
+          data-business={siteConfig.name}
+        >
+          <div>
+            <label for="wa-name" class="mb-1.5 block text-sm font-medium">
+              Nama
+            </label>
+            <input
+              id="wa-name"
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              class={fieldClass}
+            />
+          </div>
+
+          <div>
+            <label for="wa-phone" class="mb-1.5 block text-sm font-medium">
+              Nomor telepon
+              <span class="text-muted text-xs font-normal">(opsional)</span>
+            </label>
+            <input
+              id="wa-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              class={fieldClass}
+            />
+          </div>
+
+          {topics.length > 0 && (
+            <div>
+              <label for="wa-topic" class="mb-1.5 block text-sm font-medium">
+                Topik
+              </label>
+              <select id="wa-topic" name="topic" class={fieldClass}>
+                <option value="">Pilih topik</option>
+                {topics.map((topic) => (
+                  <option value={topic}>{topic}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label for="wa-message" class="mb-1.5 block text-sm font-medium">
+              Pesan
+            </label>
+            <textarea
+              id="wa-message"
+              name="message"
+              rows="4"
+              required
+              class={fieldClass}
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="bg-primary hover:bg-primary-hover text-on-primary focus-visible:outline-primary inline-flex w-full items-center justify-center rounded-lg px-6 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            {submitLabel}
+          </button>
+
+          <p class="text-muted text-xs leading-relaxed">
+            Pesan akan dibuka di WhatsApp. Tidak ada data yang disimpan di
+            website ini.
+          </p>
+        </form>
+      ) : (
+        <p class="border-border text-muted mt-8 rounded-lg border border-dashed p-5 text-sm leading-relaxed">
+          Nomor WhatsApp belum diisi. Lengkapi
+          <code class="text-foreground">siteConfig.contact.whatsapp</code> di
+          <code class="text-foreground">src/config/site.ts</code>.
+        </p>
+      )
+    }
+
+    <noscript>
+      <p class="text-muted mt-4 text-sm leading-relaxed">
+        Form ini membutuhkan JavaScript. Aktifkan JavaScript, atau
+        <a
+          href={whatsappBaseUrl ?? '/'}
+          class="text-primary font-semibold underline underline-offset-4"
+        >
+          chat langsung via WhatsApp
+        </a>.
+      </p>
+    </noscript>
+  </div>
+</section>
+
+<script>
+  function initWhatsAppForms() {
+    document
+      .querySelectorAll<HTMLFormElement>('[data-wa-form]')
+      .forEach((form) => {
+        if (form.dataset.initialized === 'true') return;
+
+        form.dataset.initialized = 'true';
+
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+          }
+
+          const data = new FormData(form);
+          const name = String(data.get('name') ?? '').trim();
+          const phone = String(data.get('phone') ?? '').trim();
+          const topic = String(data.get('topic') ?? '').trim();
+          const message = String(data.get('message') ?? '').trim();
+          const business = form.dataset.business?.trim() ?? '';
+          const base = form.dataset.waBase ?? '';
+
+          if (!base) return;
+
+          const header = business
+            ? `Halo ${business}, saya ${name}.`
+            : `Halo, saya ${name}.`;
+
+          const lines = [header];
+
+          if (topic) lines.push(`Topik: ${topic}`);
+          if (phone) lines.push(`Nomor saya: ${phone}`);
+
+          const text = `${lines.join('\n')}\n\n${message}`;
+          const url = `${base}?text=${encodeURIComponent(text)}`;
+
+          window.open(url, '_blank', 'noopener,noreferrer');
+        });
+      });
+  }
+
+  initWhatsAppForms();
+  document.addEventListener('astro:page-load', initWhatsAppForms);
+</script>

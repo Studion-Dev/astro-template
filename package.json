@@ -2,6 +2,7 @@
   "name": "astro-template",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@11.25.0",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -9,6 +10,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "astro": "astro"
   },
   "dependencies": {
@@ -23,8 +27,10 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.12",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.8.1"
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "typescript": "^5.9.3"
   }
 }

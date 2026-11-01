@@ -1,182 +1,196 @@
-# 🚀 Astro Web Service Template
+# Astro Business Template
 
-Template website agensi / jasa pembuatan website profesional berbasis **Astro**, **Tailwind CSS v4**, dan **Alpine.js**. Didesain dengan arsitektur _Config-Driven_ agar proses _development_ dan maintenance untuk tiap klien baru bisa selesai dalam hitungan menit.
+Template fondasi untuk website bisnis (landing page & company profile) yang dipakai
+lintas klien dan lintas niche.
 
----
-
-## 🛠️ Tech Stack & Integrasi
-
-- **Framework:** [Astro](https://astro.build/) (Latest)
-- **Package Manager:** `pnpm`
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
-- **Interaktivitas UI:** [Alpine.js](https://alpinejs.dev/) + `@alpinejs/collapse`
-- **Icon:** `@lucide/astro` / Native SVG
-- **Image Engine:** Sharp
-- **SEO & Utility:** `@astrojs/sitemap`, Dynamic `robots.txt`
+Yang **permanen** di template ini: layout shell, navbar, footer, SEO, dan design token.
+Yang **dirakit per klien**: section, konten, dan halaman sesuai brief.
 
 ---
 
-## 🚀 Panduan Memulai (Quick Start)
+## Teknologi
 
-### 1. Clone / Gunakan Template
+- **Framework:** Astro 7 (`output: 'static'`)
+- **Styling:** Tailwind CSS v4 via `@tailwindcss/vite`
+- **Interaktivitas:** JavaScript native (tanpa framework client)
+- **Ikon:** `@lucide/astro` (tersedia, dipakai saat butuh)
+- **Gambar:** `sharp` + `astro:assets`
+- **SEO:** `@astrojs/sitemap`, `robots.txt` dinamis
+- **Package manager:** pnpm
+- **Font:** Google Fonts (Inter + Plus Jakarta Sans)
 
-Klik tombol **"Use this template"** di repositori GitHub ini, atau clone secara lokal:
+---
+
+## Quick start
 
 ```bash
-# Clone Github commit terbaru
 git clone --depth=1 https://github.com/Studion-Dev/astro-template.git nama-project-klien
 cd nama-project-klien
-```
-
-atau
-
-```bash
-# Clone lokal commit terbaru
-git clone --depth=1 file:///D:/Dev/astro-template ../Portfolio\ Landing\ Page/nama-project-baru
-cd ../Portfolio\ Landing\ Page/nama-project-klien
-```
-
-### 2. Putus hubungan dengan template
-
-```bash
-# Putus hubungan dengan template (menghapus file .git)
 rm -rf .git
-```
-
-### 3. Inisialisasi Ulang & Install Dependencies
-
-```bash
 git init
 pnpm install
-```
-
-### 4. Jalankan Local Development
-
-```bash
 pnpm dev
 ```
 
-### 5. # Tambahkan remote ke repo github
+Buka `http://localhost:4321`.
 
-```bash
-git remote add origin git@github-agency:Studion-Dev/[nama repositori].git
-git remote add origin git@github-personal:Dion-Mantovani/[nama repositori].git
-```
-
-Buka http://localhost:4321 di browser untuk melihat hasilnya.
+> `pnpm-workspace.yaml` di repo ini bukan workspace monorepo. Isinya setting pnpm
+> (`allowBuilds` dan `minimumReleaseAgeExclude`), jadi biarkan apa adanya.
 
 ---
 
-## ⚙️ Workflow Klien Baru (Langkah Pertama Pasca-Clone)
+## Workflow klien baru
 
-Setiap kali mendapatkan project klien baru, lakukan 3 langkah sederhana ini tanpa perlu menyentuh atau merombak kodingan UI/Komponen:
+Urutan kerjanya sengaja dibuat pendek supaya agent maupun manusia tidak perlu
+menyentuh komponen inti.
 
-1. **Ubah Identitas & SEO (`src/config/site.ts`)**
-   - Isikan Nama Klien, Tagline, Deskripsi, Nomor WhatsApp, Email, Alamat, dan Link Navigasi.
-2. **Ubah Isi Konten (`src/config/content.ts`)**
-   - Isikan teks Hero, daftar FAQ (Accordion), daftar Paket Harga (Pricing), dan Testimoni (Carousel).
-3. **Set URL Domain Klien (`astro.config.mjs`)**
-   - Ganti properti `site` ke domain asli klien (misal: `https://klienbisnis.com`) agar `sitemap-index.xml` dan `robots.txt` ter-generate otomatis dengan akurat.
-4. **Atur Skema Warna (`src/styles/global.css`)**
-   - Sesuaikan variabel `--color-primary` dan `--color-secondary` di blok `@theme` sesuai brand identity klien.
+1. **Baca `PRD.md`** — brief bisnis per klien, diletakkan di root saat proyek
+   dimulai (tidak disertakan di template). Panduan pemetaan PRD ada di `AGENTS.md`
+   bagian 3.
+2. **Identitas & SEO** — isi `src/config/site.ts`:
+   nama, tagline, deskripsi, domain, kontak (termasuk jam operasional), alamat,
+   sosial media, navigasi, SEO.
+3. **Token desain** — sesuaikan palet di blok `@theme` `src/styles/global.css`.
+   Ubah **primitive** (`--color-brand-*`, `--color-neutral-*`) dan warna brand
+   `--color-brand-secondary` / `--color-accent`, bukan nama token semantic.
+4. **Konten halaman** — isi `src/config/content/home.ts` (atau file per halaman lain).
+5. **Section** — rakit section bisnis di `src/components/sections/`, lalu panggil
+   dari `src/pages/index.astro`. Tambahkan key kontennya di
+   `src/config/types.ts` + file content terkait.
+6. **Navigasi** — pastikan setiap `href` di `siteConfig.navigation` mengarah ke
+   halaman atau anchor yang benar-benar ada.
+7. **Aset** — ganti `public/og-image.png` dan `public/favicon.svg`, lalu taruh
+   gambar konten di `src/assets/images/`.
+8. **Verifikasi** — `pnpm check`, `pnpm build`, lalu cek hasilnya di browser.
+
+### Domain
+
+Domain produksi **hanya** diatur di `src/config/site.ts` (`url`).
+`astro.config.mjs` mengimpor nilai tersebut, jadi tidak ada duplikasi.
 
 ---
 
-## 📁 Arsitektur Folder Project
+## Struktur folder
 
-```bash
-astro-template/
-├── public/
-│   ├── favicon.svg
-│   └── images/               # Asset statis global (og-image, logo klien)
+```text
+.
+├── public/                     # File ber-URL tetap: favicon, og-image
 ├── src/
+│   ├── assets/images/          # Gambar konten (diproses astro:assets)
 │   ├── components/
-│   │   ├── core/             # Layout global: Navbar.astro, Footer.astro, SEO.astro
-│   │   ├── sections/         # Blok halaman utama: Hero, StatsSection, StaggeredSection
-│   │   └── ui/               # Komponen reusabel: Accordion, Tabs, Carousel
-│   ├── config/               # 🔴 WAKTU MAINTENANCE: Cukup edit 2 file ini!
-│   │   ├── site.ts           # Metadata, info kontak, menu navigasi
-│   │   └── content.ts        # Data teks hero, FAQ, Testimoni, Paket Harga
-│   ├── layouts/
-│   │   └── Layout.astro      # Root HTML shell + font & script global
+│   │   ├── core/               # Navbar, Footer, SEO — stabil
+│   │   ├── sections/           # Section bisnis, dirakit per klien
+│   │   ├── ui/                 # Primitif reusable (dibuat saat dibutuhkan)
+│   │   └── patterns/           # Referensi: About, FAQ, form WhatsApp
+│   ├── config/
+│   │   ├── site.ts             # Identitas bisnis + helper WA/alamat
+│   │   ├── types.ts            # Kontrak tipe config
+│   │   └── content/
+│   │       └── home.ts         # Konten homepage
+│   ├── layouts/Layout.astro    # HTML shell, font, skip link, script global
 │   ├── pages/
-│   │   ├── index.astro       # Entry point landing page utama
-│   │   └── robots.txt.ts     # Dynamic robots.txt generator (Dev vs Prod aware)
-│   ├── script/
-│   │   ├── alpine.ts         # Registrasi plugin Alpine.js (@alpinejs/collapse)
-│   │   └── animations.ts     # Engine Intersection Observer (Reveal & Counter)
-│   └── styles/
-│       └── global.css        # Base Tailwind v4, @theme variables, & @utility custom
-├── astro.config.mjs
-├── prettier.config.mjs
-├── package.json
-└── tsconfig.json
+│   │   ├── index.astro
+│   │   ├── 404.astro
+│   │   └── robots.txt.ts
+│   ├── scripts/reveal.js       # Scroll reveal (Intersection Observer)
+│   └── styles/global.css       # Token, base styles, reveal CSS
+├── AGENTS.md                   # Aturan kerja agent + kontrak PRD
+└── astro.config.mjs
 ```
+
+`PRD.md` tidak disertakan di template. File itu diletakkan di root saat proyek
+klien dimulai.
+
+Folder `components/ui/` dan `components/sections/` sengaja dibiarkan kosong
+sampai ada kebutuhan nyata. Jangan membuat folder atau komponen yang belum dipakai.
+
+Folder `components/patterns/` berisi referensi (About, FAQ, form WhatsApp). File di
+sana tidak di-import dari halaman dan tidak ikut bundle. Copy dulu ke `sections/`,
+lalu sambungkan kontennya.
 
 ---
 
-## 🎭 Fitur Utility & Animasi Kustom
+## Konfigurasi
 
-### 1. Scroll Reveal Animation
+`siteConfig` (`src/config/site.ts`) memakai `satisfies SiteConfig`, sehingga field
+yang salah atau kurang langsung gagal saat `pnpm check`.
 
-Cukup tambahkan class berikut pada elemen HTML/Astro yang ingin dianimasikan saat di-scroll:
+Helper yang tersedia:
 
-- **`class="reveal"`** $\rightarrow$ Elemen meluncur dari **bawah**.
-- **`class="reveal-left"`** $\rightarrow$ Elemen meluncur dari **kiri**.
-- **`class="reveal-right"`** $\rightarrow$ Elemen meluncur dari **kanan**.
+| Helper                     | Fungsi                                          |
+| :------------------------- | :---------------------------------------------- |
+| `getWhatsAppUrl(message?)` | URL `wa.me`, atau `null` jika nomor belum diisi |
+| `getWhatsAppNumber()`      | Nomor WA tanpa karakter selain angka            |
+| `getFormattedAddress()`    | Alamat satu baris tanpa bagian kosong           |
 
-#### Animasi Berurutan (Staggered Reveal)
+Komponen menyembunyikan tombol/link WhatsApp jika nomornya kosong, supaya tidak
+ada link rusak saat template masih berupa placeholder.
 
-Gunakan utility `delay-*` bawaan Tailwind CSS v4 untuk memberikan efek animasi yang muncul secara berurutan:
+### Navigasi
+
+Untuk homepage satu halaman, gunakan anchor:
+
+```ts
+navigation: [
+  { label: 'Beranda', href: '/' },
+  { label: 'Kontak', href: '#kontak' },
+],
+```
+
+Target anchor wajib punya `id` dan `scroll-mt-*` agar tidak tertutup navbar sticky.
+`#kontak` sudah tersedia di footer.
+
+---
+
+## Animasi reveal
+
+Tambahkan atribut `data-reveal` pada elemen:
 
 ```html
-<div class="reveal">Item 1 (Muncul Pertama)</div>
-<div class="reveal delay-200">Item 2 (Jeda 200ms)</div>
-<div class="reveal delay-400">Item 3 (Jeda 400ms)</div>
+<div data-reveal="up">Muncul dari bawah</div>
+<div data-reveal="left">Muncul dari kiri</div>
 ```
 
-### 2. Counter Animation Numbers
+Nilai yang tersedia: `up`, `down`, `left`, `right`.
+Efek berurutan bisa memakai inline `style="transition-delay: 80ms"` atau utility
+`delay-*` Tailwind.
 
-Gunakan class counter dan atribut data-target untuk angka statistik yang otomatis bertambah (counting animation) saat elemen masuk ke viewport:
-
-```html
-<span class="counter" data-target="150">0</span>+
-<!-- Hasil: 150+ -->
-<span class="counter" data-target="4.9">0</span>/5.0
-<!-- Hasil: 4.9/5.0 -->
-<span class="counter" data-target="10000">0</span>k+
-<!-- Hasil: 10k+ -->
-```
-
-### 3. Scrollbar Utilities
-
-- **`class="no-scrollbar"`** $\rightarrow$ Menyembunyikan scrollbar total.
-- **`class="scrollbar-autohide"`** $\rightarrow$ Scrollbar hanya muncul saat area di-hover/scroll.
-- **`class="scrollbar-visible"`** $\rightarrow$ Scrollbar minimalis selalu terlihat.
+Semua animasi otomatis nonaktif saat `prefers-reduced-motion: reduce`.
 
 ---
 
-## 🟢 Yang Boleh & Disarankan Untuk Diubah
+## Gambar
 
-- **`src/config/site.ts & src/config/content.ts`**: Tempat utama untuk penyesuaian data klien.
-- **`src/styles/global.css (@theme section)`**: Mengubah warna utama, font, dan variabel styling.
-- **`src/pages/index.astro`**: Menyusun ulang / memanggil section UI sesuai paket jasa yang diambil klien.
-
----
-
-## 🛑 Yang Sangat Tidak Disarankan Diubah (Kecuali Ada Kebutuhan Spesifik)
-
-- **`src/script/alpine.ts & src/script/animations.ts`**: Core engine untuk animasi interaktif dan observer.
-- **`src/pages/robots.txt.ts`**: Menjaga agar localhost/staging tidak di-indeks Google secara tidak sengaja, tapi otomatis diizinkan saat build produksi.
-- **`src/components/core/SEO.astro`**: Penanganan OpenGraph & Twitter Meta Tag.
+- Gambar konten → `src/assets/images/`, render dengan `Image`/`Picture` dari
+  `astro:assets` (lihat `src/assets/images/README.md`).
+- File ber-URL tetap (favicon, og-image, verifikasi) → `public/`.
+- Hero/LCP jangan `loading="lazy"`; gunakan `fetchpriority="high"`.
 
 ---
 
-## 📜 Command Reference
+## Command
 
-| Perintah           | Fungsi                                                                   |
-| :----------------- | :----------------------------------------------------------------------- |
-| `pnpm dev`         | Menjalankan server lokal untuk development (`http://localhost:4321`)     |
-| `pnpm build`       | Membangun file output produksi yang sudah di-minify ke folder `dist/`    |
-| `pnpm preview`     | Uji coba lokal untuk melihat hasil build produksi sebelum di-deploy      |
-| `pnpm astro check` | Memeriksa error tipe TypeScript dan sintaks file Astro secara menyeluruh |
+| Perintah            | Fungsi                                       |
+| :------------------ | :------------------------------------------- |
+| `pnpm dev`          | Development server (`http://localhost:4321`) |
+| `pnpm build`        | Build produksi ke `dist/`                    |
+| `pnpm preview`      | Cek hasil build secara lokal                 |
+| `pnpm check`        | Cek tipe TypeScript & sintaks Astro          |
+| `pnpm format`       | Format semua file dengan Prettier            |
+| `pnpm format:check` | Cek format tanpa mengubah file               |
+
+---
+
+## Sebelum deploy
+
+- [ ] Tidak ada teks placeholder (`NAMA_BISNIS`, `TAGLINE_BISNIS`, dst).
+- [ ] `siteConfig.url` sudah domain produksi.
+- [ ] Semua `href` navigasi hidup (tidak 404, anchor punya target).
+- [ ] `public/og-image.png` dan `public/favicon.svg` sudah diganti.
+- [ ] Nomor WhatsApp, email, dan alamat sudah benar.
+- [ ] `pnpm check` dan `pnpm build` lolos.
+- [ ] Cek manual di mobile: menu, anchor, overflow horizontal, focus keyboard.
+- [ ] `robots.txt` di produksi berisi `Allow: /` + `Sitemap:`.
+
+`robots.txt` otomatis `Disallow: /` saat development dan `Allow: /` saat build
+produksi. Halaman juga mendapat `noindex` saat development.

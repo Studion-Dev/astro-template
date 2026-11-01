@@ -1,68 +1,102 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AnimationTest from '../components/sections/AnimationTest.astro';
+import { homeContent } from '../config/content/home';
+
+const { hero } = homeContent;
+
+const structure = [
+  {
+    title: 'Config',
+    description:
+      'Identitas bisnis di src/config/site.ts, konten halaman di src/config/content/.',
+  },
+  {
+    title: 'Core',
+    description:
+      'Navbar, footer, SEO, dan layout shell. Stabil dan dipakai semua halaman.',
+  },
+  {
+    title: 'Sections',
+    description:
+      'Section bisnis dirakit per klien sesuai brief, lalu dipanggil dari halaman.',
+  },
+  {
+    title: 'Tokens',
+    description:
+      'Warna dan font global di src/styles/global.css. Komponen memakai token semantic.',
+  },
+];
 ---
 
-<Layout
-  title="Website Starter | Astro Blueprint"
-  description="Starter template Astro yang ringan, responsif, dan siap dikembangkan untuk website bisnis."
->
+<Layout>
   <section
     class="mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 py-20"
   >
-    <p class="text-primary mb-4 text-sm font-semibold tracking-wide">
-      ASTRO STARTER TEMPLATE
+    <p
+      data-reveal="up"
+      class="text-primary mb-4 text-sm font-semibold tracking-wide uppercase"
+    >
+      {hero.eyebrow}
     </p>
 
     <h1
+      data-reveal="up"
+      style="transition-delay: 80ms"
       class="font-heading max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
     >
-      Fondasi website profesional yang cepat dan fleksibel.
+      {hero.title}
     </h1>
 
-    <p class="text-secondary/70 mt-6 max-w-2xl text-lg leading-relaxed">
-      Template dasar untuk membangun landing page dan company profile sesuai
-      kebutuhan setiap klien.
+    <p
+      data-reveal="up"
+      style="transition-delay: 160ms"
+      class="text-muted mt-6 max-w-2xl text-lg leading-relaxed"
+    >
+      {hero.description}
     </p>
 
-    <div class="mt-8 flex flex-wrap gap-4">
+    <div
+      data-reveal="up"
+      style="transition-delay: 240ms"
+      class="mt-8 flex flex-wrap gap-4"
+    >
       <a
-        href="#features"
-        class="bg-primary hover:bg-primary-hover focus-visible:outline-primary rounded-lg px-6 py-3 font-semibold text-white transition focus-visible:outline-2 focus-visible:outline-offset-4"
+        href={hero.primaryCta.href}
+        class="bg-primary hover:bg-primary-hover focus-visible:outline-primary text-on-primary rounded-lg px-6 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-4"
       >
-        Lihat Fondasi
+        {hero.primaryCta.label}
+      </a>
+
+      <a
+        href={hero.secondaryCta.href}
+        class="border-border text-foreground hover:border-primary hover:text-primary rounded-lg border px-6 py-3 font-semibold transition"
+      >
+        {hero.secondaryCta.label}
       </a>
     </div>
   </section>
 
-  <section id="features" class="bg-surface px-6 py-20">
+  <section id="struktur" class="bg-surface scroll-mt-24 px-6 py-20">
     <div class="mx-auto max-w-6xl">
-      <h2 class="font-heading text-3xl font-bold">Apa yang menjadi fondasi?</h2>
+      <h2 class="font-heading text-3xl font-bold">Struktur template</h2>
 
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <article class="border-border rounded-xl border bg-white p-6">
-          <h3 class="text-lg font-semibold">Performance</h3>
-          <p class="text-secondary/70 mt-3 leading-relaxed">
-            Mengutamakan HTML, CSS, dan JavaScript seperlunya.
-          </p>
-        </article>
+      <p class="text-muted mt-3 max-w-2xl leading-relaxed">
+        Fondasi yang tersedia sebelum section bisnis dirakit.
+      </p>
 
-        <article class="border-border rounded-xl border bg-white p-6">
-          <h3 class="text-lg font-semibold">SEO & Accessibility</h3>
-          <p class="text-secondary/70 mt-3 leading-relaxed">
-            Struktur semantik dan metadata sebagai fondasi setiap halaman.
-          </p>
-        </article>
-
-        <article class="border-border rounded-xl border bg-white p-6">
-          <h3 class="text-lg font-semibold">Reusable</h3>
-          <p class="text-secondary/70 mt-3 leading-relaxed">
-            Struktur sederhana yang bisa disesuaikan untuk berbagai bisnis.
-          </p>
-        </article>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          structure.map((item) => (
+            <article
+              data-reveal="up"
+              class="border-border bg-card rounded-xl border p-6"
+            >
+              <h3 class="text-lg font-semibold">{item.title}</h3>
+              <p class="text-muted mt-3 leading-relaxed">{item.description}</p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
-
-  <AnimationTest />
 </Layout>

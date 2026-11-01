@@ -1,4 +1,4 @@
-// .prettierrc.mjs
+// prettier.config.mjs
 /** @type {import("prettier").Config} */
 export default {
   plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
@@ -14,4 +14,4 @@ export default {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'es5',
-}
+};

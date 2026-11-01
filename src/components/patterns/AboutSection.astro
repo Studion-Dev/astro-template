@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  cta?: { label: string; href: string };
+  imagePosition?: 'left' | 'right';
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  image,
+  imageAlt,
+  cta,
+  imagePosition = 'right',
+} = Astro.props;
+
+const isImageLeft = imagePosition === 'left';
+---
+
+<section id="tentang" class="scroll-mt-24 px-6 py-20">
+  <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+    <div
+      class:list={['space-y-6', isImageLeft && 'lg:order-2']}
+      data-reveal="up"
+    >
+      {
+        eyebrow && (
+          <p class="text-primary text-sm font-semibold tracking-wide uppercase">
+            {eyebrow}
+          </p>
+        )
+      }
+
+      <h2 class="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+        {title}
+      </h2>
+
+      <p class="text-muted max-w-prose text-lg leading-relaxed">
+        {description}
+      </p>
+
+      {
+        cta && (
+          <a
+            href={cta.href}
+            class="bg-primary hover:bg-primary-hover text-on-primary focus-visible:outline-primary inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            {cta.label}
+          </a>
+        )
+      }
+    </div>
+
+    <div
+      class:list={[isImageLeft && 'lg:order-1']}
+      data-reveal={isImageLeft ? 'left' : 'right'}
+    >
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        loading="lazy"
+        decoding="async"
+        class="border-border w-full rounded-2xl border object-cover"
+      />
+    </div>
+  </div>
+</section>

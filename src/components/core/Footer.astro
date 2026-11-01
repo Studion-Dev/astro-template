@@ -1,11 +1,30 @@
 ---
-import { siteConfig } from '../../config/site';
+import {
+  siteConfig,
+  getWhatsAppNumber,
+  getWhatsAppUrl,
+  getFormattedAddress,
+} from '../../config/site';
 
 const currentYear = new Date().getFullYear();
-const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
+const whatsappUrl = getWhatsAppUrl();
+const whatsappNumber = getWhatsAppNumber();
+const address = getFormattedAddress();
+
+const socialLinks = [
+  { label: 'Instagram', href: siteConfig.social.instagram },
+  { label: 'Facebook', href: siteConfig.social.facebook },
+  { label: 'TikTok', href: siteConfig.social.tiktok },
+  { label: 'YouTube', href: siteConfig.social.youtube },
+].filter((item) => Boolean(item.href));
 ---
 
-<footer class="border-border bg-surface text-secondary border-t">
+<!-- Anchor kontak default. Saat memakai pattern WhatsAppForm, pindahkan id ini
+     ke section kontak tersebut supaya tidak ada ID ganda. -->
+<footer
+  id="kontak"
+  class="border-border bg-surface text-foreground scroll-mt-24 border-t"
+>
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
     <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
       <!-- Brand Info -->
@@ -16,7 +35,7 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
           aria-label={`${siteConfig.name} - Beranda`}
         >
           <span
-            class="bg-primary flex size-8 items-center justify-center rounded-lg font-bold text-white"
+            class="bg-primary text-on-primary flex size-8 items-center justify-center rounded-lg font-bold"
             aria-hidden="true"
           >
             {siteConfig.name.charAt(0)}
@@ -24,9 +43,28 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
           <span>{siteConfig.name}</span>
         </a>
 
-        <p class="max-w-sm text-sm leading-relaxed text-slate-600">
+        <p class="text-muted max-w-sm text-sm leading-relaxed">
           {siteConfig.description}
         </p>
+
+        {
+          socialLinks.length > 0 && (
+            <ul class="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {socialLinks.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-primary text-muted transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
 
       <!-- Quick Links -->
@@ -43,9 +81,9 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
               <li>
                 <a
                   href={item.href}
-                  class="hover:text-primary text-sm text-slate-600 transition-colors"
+                  class="hover:text-primary text-muted text-sm transition-colors"
                 >
-                  {item.name}
+                  {item.label}
                 </a>
               </li>
             ))
@@ -61,43 +99,69 @@ const whatsappUrl = `https://wa.me/${siteConfig.contact.whatsapp}`;
           Kontak & Lokasi
         </h2>
 
-        <ul class="space-y-2.5 text-sm text-slate-600">
-          <li>
-            Alamat: {siteConfig.contact.address}
-          </li>
+        <ul class="text-muted space-y-2.5 text-sm">
+          {address && <li>Alamat: {address}</li>}
 
-          <li>
-            Email:
-            <a
-              href={`mailto:${siteConfig.contact.email}`}
-              class="hover:text-primary break-all transition-colors"
-            >
-              {siteConfig.contact.email}
-            </a>
-          </li>
+          {
+            siteConfig.contact.hours && (
+              <li>Jam operasional: {siteConfig.contact.hours}</li>
+            )
+          }
 
-          <li>
-            WhatsApp:
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-primary transition-colors"
-            >
-              +{siteConfig.contact.whatsapp}
-            </a>
-          </li>
+          {
+            siteConfig.contact.phone && (
+              <li>
+                Telepon:{' '}
+                <a
+                  href={`tel:${siteConfig.contact.phone}`}
+                  class="hover:text-primary transition-colors"
+                >
+                  {siteConfig.contact.phone}
+                </a>
+              </li>
+            )
+          }
+
+          {
+            siteConfig.contact.email && (
+              <li>
+                Email:{' '}
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  class="hover:text-primary break-all transition-colors"
+                >
+                  {siteConfig.contact.email}
+                </a>
+              </li>
+            )
+          }
+
+          {
+            whatsappUrl && (
+              <li>
+                WhatsApp:{' '}
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-primary transition-colors"
+                >
+                  +{whatsappNumber}
+                </a>
+              </li>
+            )
+          }
         </ul>
       </div>
     </div>
 
     <!-- Copyright -->
     <div
-      class="border-border mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center text-xs text-slate-500 sm:flex-row sm:text-left"
+      class="border-border text-muted mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center text-xs sm:flex-row sm:text-left"
     >
       <p>
         &copy; {currentYear}
-        {siteConfig.name}. All rights reserved.
+        {siteConfig.legalName || siteConfig.name}. All rights reserved.
       </p>
       <p>Built with Astro & Tailwind CSS</p>
     </div>
